@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">SameApp</string>
+    <string name="login_button_text">Login</string>
+    <string name="register_button_text">Register</string>
+    <string name="app_logo">Different locations, different positions.</string>
+    <string name="app_logo2">Same company, SAME chat.</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="same">SAME</string>
+    <string name="add_contact">Add Contact</string>
+    <string name="add_a_new_contact">Add a New Contact</string>
+    <string name="send">Send</string>
+</resources>
