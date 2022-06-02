@@ -61,8 +61,8 @@ public class activity_list extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), UserActivity.class);
 
-//                intent.putExtra("userName", userNames[i]);
-//                intent.putExtra("profilePicture", profilePictures[i]);
+                intent.putExtra("userName", contacts.get(i).getContactID());
+             //   intent.putExtra("profilePicture", );
 //                intent.putExtra("lastMassage", lastMassages[i]);
 //                intent.putExtra("time", times[i]);
 
