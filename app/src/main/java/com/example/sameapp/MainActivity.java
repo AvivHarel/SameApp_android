@@ -1,11 +1,11 @@
 package com.example.sameapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.Bundle;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
 
         loginButton = findViewById(R.id.login_button);
         registerButton = findViewById(R.id.register_button);
+
+        ContactsApi contactsApi = new ContactsApi();
+        contactsApi.get();
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override

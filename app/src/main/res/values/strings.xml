@@ -10,4 +10,6 @@
     <string name="add_contact">Add Contact</string>
     <string name="add_a_new_contact">Add a New Contact</string>
     <string name="send">Send</string>
+    <string name="click_here">Click Here</string>
+    <string name="BaseUrl">https://10.0.2.2:7001/api/</string>
 </resources>

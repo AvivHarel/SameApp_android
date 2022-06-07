@@ -18,6 +18,21 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
+        <ImageView
+            android:id="@+id/imageToUpload"
+            android:layout_gravity="center"
+            android:layout_width="100dp"
+            android:layout_height="150dp"
+            />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/uploadPicBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAllCaps="false"
+            android:text="Choose Profile Picture" />
+
         <EditText
             android:id="@+id/register_userName"
             android:layout_width="match_parent"
@@ -102,12 +117,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-    <TextView
-        android:id="@+id/textView"
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/move_to_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="30dp"
-        android:text="Click Here"
+        android:background="@drawable/gradient_background"
+        android:text="@string/click_here"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

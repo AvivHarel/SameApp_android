@@ -62,9 +62,7 @@ public class activity_list extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), UserActivity.class);
 
                 intent.putExtra("userName", contacts.get(i).getContactID());
-             //   intent.putExtra("profilePicture", );
-//                intent.putExtra("lastMassage", lastMassages[i]);
-//                intent.putExtra("time", times[i]);
+             //   intent.putExtra("profilePicture", contacts.get(i).getProfilePicture());
 
                 startActivity(intent);
             }

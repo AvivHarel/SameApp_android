@@ -15,7 +15,7 @@ public class UserActivity extends AppCompatActivity {
 
     ImageView profilePictureView;
     TextView userNameView;
-    Button sendButton = findViewById(R.id.button_gchat_send);
+    Button sendButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +24,7 @@ public class UserActivity extends AppCompatActivity {
 
         profilePictureView = findViewById(R.id.user_image_profile_image);
         userNameView = findViewById(R.id.user_text_user_name);
+        sendButton = findViewById(R.id.button_gchat_send);
 
         Intent activityIntent = getIntent();
 
