@@ -1,4 +1,7 @@
-package com.example.sameapp;
+package com.example.sameapp.api;
+
+import com.example.sameapp.Contact;
+import com.example.sameapp.User;
 
 import java.util.List;
 
@@ -12,6 +15,9 @@ import retrofit2.http.Path;
 public interface WebServiceAPI {
     @GET("contacts")
     Call<List<Contact>> getContacts();
+
+    @GET("users")
+    Call<List<User>> getUsers();
 
     @POST("contacts")
     Call<Void> createContact(@Body Contact contact);

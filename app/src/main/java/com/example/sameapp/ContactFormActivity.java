@@ -12,10 +12,44 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import com.example.sameapp.dao.ContactDao;
+
 public class ContactFormActivity extends AppCompatActivity {
 
     private ContactAppDB db;
-    private  ContactDao contactDao;
+    private ContactDao contactDao;
+
+//    public ContactFormActivity() {
+//        db = Room.databaseBuilder(getApplicationContext(),ContactAppDB.class,"ContactsDB")
+//                .allowMainThreadQueries().build();
+//
+//        contactDao = db.contactDao();
+//    }
+
+//    public void insert(ContactWithMessages contactWithMessages) {
+//        new insertAsync(contactDao).execute(contactWithMessages);
+//    }
+//
+//    private static class insertAsync extends AsyncTask<ContactWithMessages, Void, Void> {
+//        private ContactDao contactDaoAsync;
+//
+//        insertAsync(ContactDao courseDao) {
+//            contactDaoAsync = courseDao;
+//        }
+//
+//        @Override
+//        protected Void doInBackground(ContactWithMessages... contactWithMessages) {
+//
+//            String identifier = contactDaoAsync.insertContact(contactWithMessages[0].contact);
+//
+//            for (Message message : contactWithMessages[0].messages) {
+//                message.setContactId(identifier);
+//            }
+//            contactDaoAsync.insertMessages(contactWithMessages[0].messages);
+//            return null;
+//        }
+//    }
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -24,7 +58,7 @@ public class ContactFormActivity extends AppCompatActivity {
         setContentView(R.layout.activity_contact_form);
 
 
-        db= Room.databaseBuilder(getApplicationContext(),ContactAppDB.class,"ContactsDB")
+        db = Room.databaseBuilder(getApplicationContext(),ContactAppDB.class,"ContactsDB")
                 .allowMainThreadQueries().build();
 
         contactDao = db.contactDao();
@@ -37,13 +71,13 @@ public class ContactFormActivity extends AppCompatActivity {
             EditText nickname = findViewById(R.id.contact_nickname);
             EditText server = findViewById(R.id.contact_server);
 
-            //need to edit what we create, just for now.
+            //TODO need to edit what we create, just for now.
 
             Time today = new Time(Time.getCurrentTimezone());
             today.setToNow();
 
             Calendar c = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
             String strDate = sdf.format(c.getTime());
 
             Contact contact = new Contact(userName.getText().toString(),R.drawable.profile,"",strDate);

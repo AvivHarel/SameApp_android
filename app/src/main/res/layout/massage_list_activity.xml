@@ -47,8 +47,10 @@
         android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_marginBottom="16dp"
         android:background="#e0e0e0"
-        app:layout_constraintBottom_toTopOf="@+id/layout_gchat_chatbox" />
+        app:layout_constraintBottom_toTopOf="@+id/layout_gchat_chatbox"
+        tools:layout_editor_absoluteX="0dp" />
 
     <RelativeLayout
         android:id="@+id/layout_gchat_chatbox"

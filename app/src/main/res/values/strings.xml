@@ -11,5 +11,5 @@
     <string name="add_a_new_contact">Add a New Contact</string>
     <string name="send">Send</string>
     <string name="click_here">Click Here</string>
-    <string name="BaseUrl">https://10.0.2.2:7001/api/</string>
+    <string name="BaseUrl">http://10.0.2.2:5034/api/</string>
 </resources>

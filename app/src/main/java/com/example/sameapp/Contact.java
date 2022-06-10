@@ -4,14 +4,21 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.List;
+
 @Entity
 public class Contact {
     @PrimaryKey(autoGenerate=false)
     @NonNull
+    // his User Name.
     private String contactID;
+    // private String contactName;
     private int pictureId;
     private String lastMassage;
     private String lastMassageSendingTime;
+
+
+
     //list of messages
     // item of User.
 

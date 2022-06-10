@@ -1,12 +1,20 @@
 package com.example.sameapp;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Message {
 
-    private int id;
+    @PrimaryKey(autoGenerate = true)
+    private int messageId;
+
     private String created;
     private boolean sent;
-    private String UserId;
     private String content;
+
+    // this is a reference to the primary key of the parent entity.
+    private String userCreatorId;
     private String contactId;
     // CONTACT
 
@@ -15,20 +23,20 @@ public class Message {
 
     }
     public Message(int id, String created, boolean sent, String userId, String content, String contactId) {
-        this.id = id;
+        this.messageId = id;
         this.created = created;
         this.sent = sent;
-        UserId = userId;
+        this.userCreatorId = userId;
         this.content = content;
         this.contactId = contactId;
     }
 
-    public int getId() {
-        return id;
+    public int getMessageId() {
+        return messageId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setMessageId(int id) {
+        this.messageId = id;
     }
 
     public String getCreated() {
@@ -47,12 +55,12 @@ public class Message {
         this.sent = sent;
     }
 
-    public String getUserId() {
-        return UserId;
+    public String getUserCreatorId() {
+        return userCreatorId;
     }
 
-    public void setUserId(String userId) {
-        UserId = userId;
+    public void setUserCreatorId(String userId) {
+        userCreatorId = userId;
     }
 
     public String getContent() {

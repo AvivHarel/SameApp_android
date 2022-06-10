@@ -23,9 +23,6 @@
             android:name=".UserActivity"
             android:exported="false" />
         <activity
-            android:name=".custom_list_item"
-            android:exported="false" />
-        <activity
             android:name=".activity_list"
             android:exported="false" />
         <activity

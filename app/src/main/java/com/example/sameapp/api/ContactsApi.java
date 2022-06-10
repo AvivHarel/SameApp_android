@@ -1,12 +1,17 @@
-package com.example.sameapp;
+package com.example.sameapp.api;
+
+import com.example.sameapp.Contact;
+import com.example.sameapp.MyApplication;
+import com.example.sameapp.R;
+import com.google.gson.GsonBuilder;
 
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class ContactsApi {
     //private MutableLiveData<List<Contact>> contactsListData;
@@ -16,7 +21,9 @@ public class ContactsApi {
     public ContactsApi() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(MyApplication.context.getString(R.string.BaseUrl))
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
+                        .setLenient()
+                        .create()))
                 .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
