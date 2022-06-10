@@ -12,7 +12,7 @@ public class Contact {
     @NonNull
     // his User Name.
     private String contactID;
-    // private String contactName;
+    //private String userNameOwner;
     private int pictureId;
     private String lastMassage;
     private String lastMassageSendingTime;

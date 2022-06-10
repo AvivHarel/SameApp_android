@@ -1,31 +1,53 @@
 package com.example.sameapp;
 
-public class User {
-    private String userName;
-    private int pictureId;
-    private String lastMassage;
-    private String lastMassageSendingTime;
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
-    public User(String userName, int pictureId, String lastMassage, String lastMassageSendingTime) {
-        this.userName = userName;
+import java.util.List;
+
+@Entity
+public class User {
+    @PrimaryKey(autoGenerate=false)
+    @NonNull
+    private String userNameId;
+
+    @NonNull
+    private String password;
+
+    private String pictureId;
+
+    public User(){}
+
+    public User(@NonNull String userName, @NonNull String password, String pictureId) {
+        this.userNameId = userName;
+        this.password = password;
         this.pictureId = pictureId;
-        this.lastMassage = lastMassage;
-        this.lastMassageSendingTime = lastMassageSendingTime;
     }
 
-    public int getPictureId() {
+    @NonNull
+    public String getUserNameId() {
+        return userNameId;
+    }
+
+    public void setUserNameId(@NonNull String userName) {
+        this.userNameId = userName;
+    }
+
+    @NonNull
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(@NonNull String password) {
+        this.password = password;
+    }
+
+    public String getPictureId() {
         return pictureId;
     }
 
-    public String getLastMassage() {
-        return lastMassage;
-    }
-
-    public String getLastMassageSendingTime() {
-        return lastMassageSendingTime;
-    }
-
-    public String getUserName() {
-        return userName;
+    public void setPictureId(String pictureId) {
+        this.pictureId = pictureId;
     }
 }
