@@ -21,6 +21,9 @@ public interface ContactDao {
     @Query("SELECT * FROM contact WHERE contactID = :contactId")
     Contact get(String contactId);
 
+    @Query("UPDATE contact SET lastMassage = :LastMessage, lastMassageSendingTime = :LastTime WHERE contactID = :contactId")
+    void update(String contactId, String LastMessage, String LastTime);
+
     @Insert
     void insert(Contact... contacts);
 

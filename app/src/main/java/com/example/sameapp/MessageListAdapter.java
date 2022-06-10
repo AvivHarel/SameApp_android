@@ -1,6 +1,10 @@
 package com.example.sameapp;
 
 import android.content.Context;
+import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
+import android.os.Build;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +16,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -23,15 +28,14 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView messageContent;
-        //private final TextView time;
-        //private final TextView date;
+        private final TextView time;
+        private final TextView date;
 
         ViewHolder(View itemView) {
             super(itemView);
-
             messageContent =  itemView.findViewById(R.id.text_gchat_message_me);
-            //time = itemView.findViewById(R.id.tvAnimalName);
-            //date = itemView.findViewById(R.id.tvAnimalName);
+            time = itemView.findViewById(R.id.text_gchat_timestamp_me);
+            date = itemView.findViewById(R.id.text_gchat_date_me);
         }
 
     }
@@ -52,11 +56,25 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
     }
 
     // binds the data to the TextView in each row
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (messages != null ){
             final Message current = messages.get(position);
             holder.messageContent.setText(current.getContent());
+
+            Time today = new Time(Time.getCurrentTimezone());
+            today.setToNow();
+
+            Calendar c = Calendar.getInstance();
+            SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
+            String date = sdf1.format(c.getTime());
+
+            SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
+            String time = sdf2.format(c.getTime());
+
+            holder.date.setText(date);
+            holder.time.setText(time);
         }
     }
 

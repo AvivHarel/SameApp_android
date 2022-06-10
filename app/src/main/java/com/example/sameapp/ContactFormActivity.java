@@ -77,7 +77,7 @@ public class ContactFormActivity extends AppCompatActivity {
             today.setToNow();
 
             Calendar c = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd-MM-yyyy");
             String strDate = sdf.format(c.getTime());
 
             Contact contact = new Contact(userName.getText().toString(),R.drawable.profile,"",strDate);

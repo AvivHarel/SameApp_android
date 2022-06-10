@@ -22,8 +22,7 @@ public class Message {
     public Message(){
 
     }
-    public Message(int id, String created, boolean sent, String userId, String content, String contactId) {
-        this.messageId = id;
+    public Message(String created, boolean sent, String userId, String content, String contactId) {
         this.created = created;
         this.sent = sent;
         this.userCreatorId = userId;
