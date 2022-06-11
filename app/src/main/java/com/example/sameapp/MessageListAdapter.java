@@ -37,7 +37,6 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
             time = itemView.findViewById(R.id.text_gchat_timestamp_me);
             date = itemView.findViewById(R.id.text_gchat_date_me);
         }
-
     }
 
     private LayoutInflater mInflater;
