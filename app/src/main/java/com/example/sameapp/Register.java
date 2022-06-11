@@ -1,5 +1,6 @@
 package com.example.sameapp;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +27,7 @@ public class Register extends AppCompatActivity {
 
     private static final int Img_id = 1;
     Button registerButton;
-    Button moveButton;
+    TextView moveButton;
     Button uploadButton;
     ImageView imageToUpload;
 

@@ -45,15 +45,14 @@ android:layout_height="match_parent">
 
 </com.google.android.material.appbar.AppBarLayout>
 
-<androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/recycler_gchat"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="16dp"
-    android:background="@drawable/gradient_background"
-    app:layout_constrainedHeight="true"
-    app:layout_constraintBottom_toTopOf="@+id/text_gchat_indicator"
-    app:layout_constraintTop_toBottomOf="@+id/layout_group_chat" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_gchat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_background"
+        app:layout_constrainedHeight="true"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintTop_toBottomOf="@+id/layout_group_chat" />
 
 <TextView
     android:id="@+id/text_gchat_indicator"
@@ -87,9 +86,11 @@ android:layout_height="match_parent">
         android:layout_marginStart="16dp"
         android:layout_toStartOf="@+id/button_gchat_send"
         android:background="@android:color/transparent"
-        android:hint="Enter Message"
+        android:hint="@string/enter_message"
         android:inputType="text"
         android:maxLines="6"
+        android:minHeight="48dp"
+        android:textColorHint="#757575"
         tools:ignore="Autofill" />
 
     <androidx.appcompat.widget.AppCompatButton

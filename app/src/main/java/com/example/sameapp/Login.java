@@ -11,6 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +25,7 @@ public class Login extends AppCompatActivity {
 
 
     Button loginButton;
-    Button moveButton;
+    TextView moveButton;
 
     private ContactAppDB db;
     private UserDao userDao;

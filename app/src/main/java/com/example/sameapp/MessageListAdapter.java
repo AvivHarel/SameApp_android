@@ -51,8 +51,25 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.item_message_me, parent, false);
+        View view;
+        if (viewType == 1){
+            view = mInflater.inflate(R.layout.item_message_me, parent, false);
+        } else {
+            view = mInflater.inflate(R.layout.item_message_other, parent, false);
+        }
         return new ViewHolder(view);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (messages != null){
+            final Message current = messages.get(position);
+            boolean sender = current.isSent();
+            if (sender){
+                return 1;
+            }
+        }
+        return 0;
     }
 
     // binds the data to the TextView in each row

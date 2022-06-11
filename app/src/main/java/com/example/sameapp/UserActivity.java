@@ -94,30 +94,31 @@ public class UserActivity extends AppCompatActivity {
 
                 String messageContent = mEdit.getText().toString();
 
-                Time today = new Time(Time.getCurrentTimezone());
-                today.setToNow();
+                if (messageContent.length() > 0) {
+                    Time today = new Time(Time.getCurrentTimezone());
+                    today.setToNow();
 
-                Calendar c = Calendar.getInstance();
-                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd-MM-yyyy");
-                String strDate = sdf.format(c.getTime());
+                    Calendar c = Calendar.getInstance();
+                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd-MM-yyyy");
+                    String strDate = sdf.format(c.getTime());
 
-                String receiver = activityIntent.getStringExtra("userName");
+                    String receiver = activityIntent.getStringExtra("userName");
 
-                contactDao.update(receiver,messageContent,strDate);
+                    contactDao.update(receiver,messageContent,strDate);
 
-                SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-                String sender = (sharedpreferences.getString("USERNAME", ""));
+                    SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                    String sender = (sharedpreferences.getString("USERNAME", ""));
 
-                Message message = new Message(strDate, true, sender, messageContent, receiver);
+                    Message message = new Message(strDate, true, sender, messageContent, receiver);
 
-                messageDao.insert(message);
+                    messageDao.insert(message);
 
-                messages.clear();
-                messages.addAll(messageDao.get(receiver));
-                adapter.notifyDataSetChanged();
+                    messages.clear();
+                    messages.addAll(messageDao.get(receiver));
+                    adapter.notifyDataSetChanged();
 
-                mEdit.setText("");
-
+                    mEdit.setText("");
+                }
             }
         });
     }

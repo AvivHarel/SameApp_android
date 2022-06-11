@@ -24,7 +24,8 @@
             android:layout_marginBottom="10dp"
             android:ems="10"
             android:hint="Username"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:minHeight="48dp" />
 
         <EditText
             android:id="@+id/login_password"
@@ -47,6 +48,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:orientation="vertical"
         android:padding="20dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
@@ -57,19 +59,18 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="34dp"
             android:layout_gravity="center"
             app:srcCompat="@drawable/ic_action_name"
             tools:layout_editor_absoluteX="115dp"
-
             tools:layout_editor_absoluteY="79dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="30dp"
-            android:text="SAME" />
+            android:text="SAME"
+            android:textSize="30dp" />
 
     </LinearLayout>
 
@@ -85,18 +86,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-    <androidx.appcompat.widget.AppCompatButton
+    <TextView
         android:id="@+id/move_to_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="30dp"
+        android:layout_gravity="center"
         android:text="@string/click_here"
-        android:background="@drawable/gradient_background"
+        android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.246" />
+        android:linksClickable="true"
+        app:layout_constraintVertical_bias="0.131" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
