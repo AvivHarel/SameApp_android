@@ -1,11 +1,14 @@
 package com.example.sameapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
@@ -40,6 +43,10 @@ public class Login extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // hide the keyboard after press.
+                InputMethodManager imm = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
 
                 EditText ItemUserName = findViewById(R.id.login_userName);
                 EditText ItemPassword = findViewById(R.id.login_password);
@@ -48,12 +55,18 @@ public class Login extends AppCompatActivity {
                 String password = ItemPassword.getText().toString();
 
                 User user = userDao.get(userName);
-                if (userName.length() == 0 || password.length() == 0 || user == null || !user.getPassword().equals(password)){
-                    return;
+                if (userName.length() == 0 || password.length() == 0) {
+                    Toast t = Toast.makeText(getApplicationContext(), "UserName or Password are not valid.", Toast.LENGTH_SHORT);
+                    t.show();
                 }
-
-                Intent intent = new Intent(getApplicationContext(), activity_list.class);
-                startActivity(intent);
+                else if (user == null || !user.getPassword().equals(password)) {
+                    Toast t = Toast.makeText(getApplicationContext(), "UserName or Password Wrong.", Toast.LENGTH_SHORT);
+                    t.show();
+                }
+                else {
+                    Intent intent = new Intent(getApplicationContext(), activity_list.class);
+                    startActivity(intent);
+                }
             }
         });
 

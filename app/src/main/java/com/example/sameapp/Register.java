@@ -1,13 +1,16 @@
 package com.example.sameapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
@@ -55,6 +58,11 @@ public class Register extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // hide the keyboard after press.
+                InputMethodManager imm = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
                 EditText ItemUserName = findViewById(R.id.register_userName);
                 EditText ItemPassword = findViewById(R.id.register_password);
                 EditText ItemConfirmPassword = findViewById(R.id.confirm_password);
@@ -63,22 +71,33 @@ public class Register extends AppCompatActivity {
                 String userName = ItemUserName.getText().toString();
                 String password = ItemPassword.getText().toString();
                 String confirmPassword = ItemConfirmPassword.getText().toString();
+                //TODO need to change.
                 String myImg = "TEMP";
-
-                if (!password.equals(confirmPassword) || password.length() == 0){
-                    return;
-                }
-
                 User user = userDao.get(userName);
-                if (user != null){
-                    return;
+
+                if (userName.length() == 0 || password.length() == 0) {
+                    Toast t = Toast.makeText(getApplicationContext(), "UserName or Password are not valid.", Toast.LENGTH_SHORT);
+                    t.show();
                 }
+                else if (!password.equals(confirmPassword)) {
+                    Toast t = Toast.makeText(getApplicationContext(), "Password not equal.", Toast.LENGTH_SHORT);
+                    t.show();
+                }
+                else if (user != null){
+                    Toast t = Toast.makeText(getApplicationContext(), "UserName already exist.", Toast.LENGTH_SHORT);
+                    t.show();
+                }
+                else if (password.length() < 8) {
+                    Toast t = Toast.makeText(getApplicationContext(), "Password must contains minimum 8 chars.", Toast.LENGTH_SHORT);
+                    t.show();
+                }
+                else{
+                    User newUser = new User(userName, password, myImg);
+                    userDao.insert(newUser);
 
-                User newUser = new User(userName, password, myImg);
-                userDao.insert(newUser);
-
-                Intent intent = new Intent(getApplicationContext(), activity_list.class);
-                startActivity(intent);
+                    Intent intent = new Intent(getApplicationContext(), activity_list.class);
+                    startActivity(intent);
+                }
             }
         });
 
