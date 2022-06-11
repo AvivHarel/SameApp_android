@@ -85,6 +85,7 @@ public class UserActivity extends AppCompatActivity {
         adapter.setMessages(messages);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("NotifyDataSetChanged")
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
@@ -92,10 +93,6 @@ public class UserActivity extends AppCompatActivity {
                 EditText mEdit = (EditText)findViewById(R.id.edit_gchat_message);
 
                 String messageContent = mEdit.getText().toString();
-
-                //TODO need to update the data.
-                //Random random = new Random();
-                //int randomId = random.nextInt(99);
 
                 Time today = new Time(Time.getCurrentTimezone());
                 today.setToNow();

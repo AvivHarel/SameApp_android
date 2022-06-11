@@ -63,18 +63,11 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
             final Message current = messages.get(position);
             holder.messageContent.setText(current.getContent());
 
-            Time today = new Time(Time.getCurrentTimezone());
-            today.setToNow();
+            String DateAndTime = current.getCreated();
+            String[] arrTime = DateAndTime.split(" ", 2);
+            holder.time.setText(arrTime[0]);
+            holder.date.setText(arrTime[1]);
 
-            Calendar c = Calendar.getInstance();
-            SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
-            String date = sdf1.format(c.getTime());
-
-            SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
-            String time = sdf2.format(c.getTime());
-
-            holder.date.setText(date);
-            holder.time.setText(time);
         }
     }
 
