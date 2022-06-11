@@ -12,25 +12,19 @@ public class Contact {
     @NonNull
     // his User Name.
     private String contactID;
-    //private String userNameOwner;
+    private String userNameOwner;
     private int pictureId;
     private String lastMassage;
     private String lastMassageSendingTime;
 
+//    public Contact(){}
 
-
-    //list of messages
-    // item of User.
-
-    public Contact(){
-
-    }
-
-    public Contact(String contactID, int pictureId, String lastMassage, String lastMassageSendingTime) {
+    public Contact(@NonNull String contactID, int pictureId, String lastMassage, String lastMassageSendingTime, String userNameOwner) {
         this.contactID = contactID;
         this.pictureId = pictureId;
         this.lastMassage = lastMassage;
         this.lastMassageSendingTime = lastMassageSendingTime;
+        this.userNameOwner = userNameOwner;
     }
 
     public int getPictureId() {
@@ -45,11 +39,12 @@ public class Contact {
         return lastMassageSendingTime;
     }
 
+    @NonNull
     public String getContactID() {
         return contactID;
     }
 
-    public void setContactID(String contactID) {
+    public void setContactID(@NonNull String contactID) {
         this.contactID = contactID;
     }
 
@@ -63,5 +58,13 @@ public class Contact {
 
     public void setLastMassageSendingTime(String lastMassageSendingTime) {
         this.lastMassageSendingTime = lastMassageSendingTime;
+    }
+
+    public String getUserNameOwner() {
+        return userNameOwner;
+    }
+
+    public void setUserNameOwner(String userNameOwner) {
+        this.userNameOwner = userNameOwner;
     }
 }

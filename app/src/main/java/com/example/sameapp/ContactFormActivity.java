@@ -1,5 +1,7 @@
 package com.example.sameapp;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.Build;
@@ -7,6 +9,8 @@ import android.os.Bundle;
 import android.text.format.Time;
 import android.widget.Button;
 import android.widget.EditText;
+import static com.example.sameapp.Register.MyPREFERENCES;
+
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -80,7 +84,11 @@ public class ContactFormActivity extends AppCompatActivity {
             SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd-MM-yyyy");
             String strDate = sdf.format(c.getTime());
 
-            Contact contact = new Contact(userName.getText().toString(),R.drawable.profile,"",strDate);
+            SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
+            String owner = (sharedpreferences.getString("USERNAME", ""));
+
+            Contact contact = new Contact(userName.getText().toString(),R.drawable.profile,"",strDate, owner);
 
             contactDao.insert(contact);
 

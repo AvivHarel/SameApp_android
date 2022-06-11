@@ -15,8 +15,8 @@ import java.util.Map;
 @Dao
 public interface ContactDao {
 
-    @Query("SELECT * FROM contact")
-    List<Contact> index();
+    @Query("SELECT * FROM contact WHERE userNameOwner =:owner")
+    List<Contact> index(String owner);
 
     @Query("SELECT * FROM contact WHERE contactID = :contactId")
     Contact get(String contactId);

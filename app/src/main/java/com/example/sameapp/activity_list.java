@@ -1,6 +1,10 @@
 package com.example.sameapp;
 
+import static com.example.sameapp.Register.MyPREFERENCES;
+
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -74,7 +78,9 @@ public class activity_list extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         contacts.clear();
-        contacts.addAll(contactDao.index());
+        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String owner = (sharedpreferences.getString("USERNAME", ""));
+        contacts.addAll(contactDao.index(owner));
         adapter.notifyDataSetChanged();
     }
 }

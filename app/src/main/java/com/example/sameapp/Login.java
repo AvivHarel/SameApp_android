@@ -1,7 +1,10 @@
 package com.example.sameapp;
 
+import static com.example.sameapp.Register.MyPREFERENCES;
+
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -25,6 +28,7 @@ public class Login extends AppCompatActivity {
 
     private ContactAppDB db;
     private UserDao userDao;
+    private SharedPreferences sharedpreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,7 @@ public class Login extends AppCompatActivity {
 
         loginButton = findViewById(R.id.login_loginButton);
         moveButton = findViewById(R.id.move_to_register);
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
         // when press to login move to list of contact list.
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +69,12 @@ public class Login extends AppCompatActivity {
                     t.show();
                 }
                 else {
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString("USERNAME", userName);
+                    editor.commit();
+
+
+
                     Intent intent = new Intent(getApplicationContext(), activity_list.class);
                     startActivity(intent);
                 }

@@ -2,6 +2,7 @@ package com.example.sameapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -30,6 +31,9 @@ public class Register extends AppCompatActivity {
 
     private ContactAppDB db;
     private UserDao userDao;
+
+    private SharedPreferences sharedpreferences;
+    public static final String MyPREFERENCES = "MyPrefs" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +75,10 @@ public class Register extends AppCompatActivity {
                 String userName = ItemUserName.getText().toString();
                 String password = ItemPassword.getText().toString();
                 String confirmPassword = ItemConfirmPassword.getText().toString();
+
+                // TODO maybe change the first param.
+                sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+
                 //TODO need to change.
                 String myImg = "TEMP";
                 User user = userDao.get(userName);
@@ -94,6 +102,11 @@ public class Register extends AppCompatActivity {
                 else{
                     User newUser = new User(userName, password, myImg);
                     userDao.insert(newUser);
+
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putString("USERNAME", userName);
+                    editor.commit();
+
 
                     Intent intent = new Intent(getApplicationContext(), activity_list.class);
                     startActivity(intent);

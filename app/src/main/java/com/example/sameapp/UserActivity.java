@@ -1,7 +1,12 @@
 package com.example.sameapp;
 
 
+import static com.example.sameapp.Register.MyPREFERENCES;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.os.Build;
@@ -103,7 +108,10 @@ public class UserActivity extends AppCompatActivity {
 
                 contactDao.update(receiver,messageContent,strDate);
 
-                Message message = new Message(strDate, true, "Sender", messageContent, receiver);
+                SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                String sender = (sharedpreferences.getString("USERNAME", ""));
+
+                Message message = new Message(strDate, true, sender, messageContent, receiver);
 
                 messageDao.insert(message);
 
@@ -117,6 +125,7 @@ public class UserActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     protected void onResume(){
         super.onResume();
