@@ -13,12 +13,12 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class ContactsApi {
+public class MessagesApi {
     //private MutableLiveData<List<Contact>> contactsListData;
     Retrofit retrofit;
     WebServiceAPI webServiceAPI;
 
-    public ContactsApi() {
+    public MessagesApi() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(MyApplication.context.getString(R.string.BaseUrl))
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
@@ -28,22 +28,22 @@ public class ContactsApi {
         webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
     // get all contacts from api.
-    public void get() {
-        Call<List<apiContact>> call = webServiceAPI.getContacts();
-        call.enqueue(new Callback<List<apiContact>> (){
+    public void get(String contactId) {
+        Call<List<apiMessage>> call = webServiceAPI.getMessges(contactId);
+        call.enqueue(new Callback<List<apiMessage>> (){
 
             @Override
-            public void onResponse(Call<List<apiContact>> call, Response<List<apiContact>> response) {
-                List<apiContact> contacts = (List<apiContact>) response.body();
-                for (apiContact c : contacts) {
-                    String id = c.getId();
-                    String last = c.getLast();
+            public void onResponse(Call<List<apiMessage>> call, Response<List<apiMessage>> response) {
+                List<apiMessage> messages = (List<apiMessage>) response.body();
+                for (apiMessage c : messages) {
+                    String id = c.getContactId();
+                    String last = c.getContent();
                 }
                 //response.body();
             }
 
             @Override
-            public void onFailure(Call<List<apiContact>> call, Throwable t) {
+            public void onFailure(Call<List<apiMessage>> call, Throwable t) {
 
             }
         });

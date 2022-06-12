@@ -19,27 +19,25 @@ public class UsersApi {
     public UsersApi() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(MyApplication.context.getString(R.string.BaseUrl))
-                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
-                        .setLenient()
-                        .create()))
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);
     }
     // get all users from api.
-    public void get() {
-        Call<List<User>> call = webServiceAPI.getUsers();
-        call.enqueue(new Callback<List<User>> (){
-
-            @Override
-            public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                List<User> users = response.body();
-                //response.body();
-            }
-
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-
-            }
-        });
-    }
+//    public void get() {
+//        /Call<List<apiUser>> call = webServiceAPI.getUsers();
+//        call.enqueue(new Callback<List<apiUser>> (){
+//
+//            @Override
+//            public void onResponse(Call<List<apiUser>> call, Response<List<apiUser>> response) {
+//                List<apiUser> users = response.body();
+//                //response.body();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<apiUser>> call, Throwable t) {
+//
+//            }
+//        });
+//    }
 }

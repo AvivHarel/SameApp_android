@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.sameapp.api.ContactsApi;
+import com.example.sameapp.api.MessagesApi;
+
 // this activity is for the first screen when opening the app.
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
 
         //ContactsApi contactsApi = new ContactsApi();
         //contactsApi.get();
+
+        //MessagesApi messagesApi = new MessagesApi();
+        //messagesApi.get("Aviv");
 
         // when press to login go to login screen.
         loginButton.setOnClickListener(new View.OnClickListener() {

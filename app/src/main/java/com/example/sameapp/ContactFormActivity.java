@@ -7,8 +7,11 @@ import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.Time;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+
 import static com.example.sameapp.Register.MyPREFERENCES;
 
 
@@ -17,45 +20,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import com.example.sameapp.dao.ContactDao;
+import com.example.sameapp.dao.UserDao;
 
 public class ContactFormActivity extends AppCompatActivity {
 
     private ContactAppDB db;
     private ContactDao contactDao;
+    private UserDao userDao;
 
-//    public ContactFormActivity() {
-//        db = Room.databaseBuilder(getApplicationContext(),ContactAppDB.class,"ContactsDB")
-//                .allowMainThreadQueries().build();
-//
-//        contactDao = db.contactDao();
-//    }
-
-//    public void insert(ContactWithMessages contactWithMessages) {
-//        new insertAsync(contactDao).execute(contactWithMessages);
-//    }
-//
-//    private static class insertAsync extends AsyncTask<ContactWithMessages, Void, Void> {
-//        private ContactDao contactDaoAsync;
-//
-//        insertAsync(ContactDao courseDao) {
-//            contactDaoAsync = courseDao;
-//        }
-//
-//        @Override
-//        protected Void doInBackground(ContactWithMessages... contactWithMessages) {
-//
-//            String identifier = contactDaoAsync.insertContact(contactWithMessages[0].contact);
-//
-//            for (Message message : contactWithMessages[0].messages) {
-//                message.setContactId(identifier);
-//            }
-//            contactDaoAsync.insertMessages(contactWithMessages[0].messages);
-//            return null;
-//        }
-//    }
-
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +38,7 @@ public class ContactFormActivity extends AppCompatActivity {
                 .allowMainThreadQueries().build();
 
         contactDao = db.contactDao();
+        userDao = db.userDao();
 
         Button btnAdd = findViewById(R.id.contact_btnAdd);
 
@@ -75,24 +48,39 @@ public class ContactFormActivity extends AppCompatActivity {
             EditText nickname = findViewById(R.id.contact_nickname);
             EditText server = findViewById(R.id.contact_server);
 
-            //TODO need to edit what we create, just for now.
+            //check if the contact exist in the useres db.
+            User userExist = userDao.get(userName.getText().toString());
+            if(userExist != null) {
 
-            Time today = new Time(Time.getCurrentTimezone());
-            today.setToNow();
 
-            Calendar c = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd-MM-yyyy");
-            String strDate = sdf.format(c.getTime());
+                //TODO need to edit what we create, just for now.
 
-            SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                Time today = new Time(Time.getCurrentTimezone());
+                today.setToNow();
 
-            String owner = (sharedpreferences.getString("USERNAME", ""));
+                Calendar c = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd-MM-yyyy");
+                String strDate = sdf.format(c.getTime());
 
-            Contact contact = new Contact(userName.getText().toString(),R.drawable.profile,"",strDate, owner);
+                SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
-            contactDao.insert(contact);
+                String owner = (sharedpreferences.getString("USERNAME", ""));
 
-            finish();
+                Contact contact = new Contact(userName.getText().toString(), R.drawable.profile, "", strDate, owner);
+
+                contactDao.insert(contact);
+
+                finish();
+            }
+            else{
+                // hide the keyboard after press.
+                InputMethodManager imm = (InputMethodManager)
+                        getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+                Toast t = Toast.makeText(getApplicationContext(), "Contact is not exist in the app db.", Toast.LENGTH_SHORT);
+                t.show();
+            }
         });
     }
 }

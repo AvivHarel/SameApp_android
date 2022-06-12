@@ -14,10 +14,10 @@ import retrofit2.http.Path;
 
 public interface WebServiceAPI {
     @GET("contacts")
-    Call<List<Contact>> getContacts();
+    Call<List<apiContact>> getContacts();
 
-    @GET("users")
-    Call<List<User>> getUsers();
+    @GET("contacts/{id}/messages")
+    Call<List<apiMessage>> getMessges(@Path("id") String id);
 
     @POST("contacts")
     Call<Void> createContact(@Body Contact contact);

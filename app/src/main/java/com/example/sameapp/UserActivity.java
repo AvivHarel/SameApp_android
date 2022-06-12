@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.Time;
@@ -27,6 +28,7 @@ import androidx.room.Room;
 
 import com.example.sameapp.dao.ContactDao;
 import com.example.sameapp.dao.MessageDao;
+import com.example.sameapp.dao.UserDao;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -41,6 +43,7 @@ public class UserActivity extends AppCompatActivity {
     private ContactAppDB db;
     private MessageDao messageDao;
     private ContactDao contactDao;
+    private UserDao userDao;
 
     private ArrayList<Message> messages;
 
@@ -58,6 +61,7 @@ public class UserActivity extends AppCompatActivity {
 
         messageDao = db.messageDao();
         contactDao = db.contactDao();
+        userDao = db.userDao();
 
         profilePictureView = findViewById(R.id.user_image_profile_image);
         userNameView = findViewById(R.id.user_text_user_name);
@@ -69,7 +73,14 @@ public class UserActivity extends AppCompatActivity {
             String receiver = activityIntent.getStringExtra("userName");
             int profilePicture = activityIntent.getIntExtra("profilePicture", R.drawable.profile);
 
-            profilePictureView.setImageResource(profilePicture);
+            // get the user to restore his profile picture:
+            User user = userDao.get(receiver);
+            String profileImage = user.getPictureId();
+            Uri profileUri = Uri.parse(profileImage);
+
+
+            profilePictureView.setImageURI(profileUri);
+
             userNameView.setText(receiver);
         }
 
@@ -86,7 +97,6 @@ public class UserActivity extends AppCompatActivity {
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("NotifyDataSetChanged")
-            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
 

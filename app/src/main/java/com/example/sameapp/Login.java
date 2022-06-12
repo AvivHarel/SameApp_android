@@ -65,7 +65,11 @@ public class Login extends AppCompatActivity {
                     Toast t = Toast.makeText(getApplicationContext(), "UserName or Password are not valid.", Toast.LENGTH_SHORT);
                     t.show();
                 }
-                else if (user == null || !user.getPassword().equals(password)) {
+                else if(user == null){
+                    Toast t = Toast.makeText(getApplicationContext(), "User don't exist.", Toast.LENGTH_SHORT);
+                    t.show();
+                }
+                else if ( !user.getPassword().equals(password)) {
                     Toast t = Toast.makeText(getApplicationContext(), "UserName or Password Wrong.", Toast.LENGTH_SHORT);
                     t.show();
                 }

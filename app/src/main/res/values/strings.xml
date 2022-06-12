@@ -11,6 +11,16 @@
     <string name="add_a_new_contact">Add a New Contact</string>
     <string name="send">Send</string>
     <string name="click_here">Click Here</string>
-    <string name="BaseUrl">http://10.0.2.2:5034/api/</string>
+    <string name="BaseUrl">http://10.0.2.2:7001/api/</string>
     <string name="enter_message">Enter Message</string>
+    <string name="choose_profile_picture">Choose Profile Picture</string>
+    <string name="nickname">NickName</string>
+    <string name="server">Server</string>
+    <string name="same_app">SAME</string>
+    <string name="not_registered">Not Registered?</string>
+    <string name="already_registered">Already Registered?</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="june_10">June 10</string>
+    <string name="this_is_a_message">This is a Message</string>
+    <string name="_10_00">10:00</string>
 </resources>

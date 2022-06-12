@@ -22,6 +22,8 @@ import com.example.sameapp.dao.MessageDao;
 import com.example.sameapp.dao.UserDao;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Register extends AppCompatActivity {
 
@@ -82,15 +84,24 @@ public class Register extends AppCompatActivity {
                 sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
                 //TODO need to change.
-                String myImg = "TEMP";
+                String myImg = imageToUpload.getTag().toString();
                 User user = userDao.get(userName);
 
-                if (userName.length() == 0 || password.length() == 0) {
-                    Toast t = Toast.makeText(getApplicationContext(), "UserName or Password are not valid.", Toast.LENGTH_SHORT);
+//                String pattern ="([a-zA-Z])";
+//                Pattern r = Pattern.compile(pattern);
+//
+//                Matcher m = r.matcher(password);
+
+                if (password.length() == 0) {
+                    Toast t = Toast.makeText(getApplicationContext(), "Password is a Required field.", Toast.LENGTH_SHORT);
+                    t.show();
+                }
+                if (userName.length() == 0) {
+                    Toast t = Toast.makeText(getApplicationContext(), "UserName is a Required field.", Toast.LENGTH_SHORT);
                     t.show();
                 }
                 else if (!password.equals(confirmPassword)) {
-                    Toast t = Toast.makeText(getApplicationContext(), "Password not equal.", Toast.LENGTH_SHORT);
+                    Toast t = Toast.makeText(getApplicationContext(), "Passwords are not equal.", Toast.LENGTH_SHORT);
                     t.show();
                 }
                 else if (user != null){
@@ -98,9 +109,13 @@ public class Register extends AppCompatActivity {
                     t.show();
                 }
                 else if (password.length() < 8) {
-                    Toast t = Toast.makeText(getApplicationContext(), "Password must contains minimum 8 chars.", Toast.LENGTH_SHORT);
+                    Toast t = Toast.makeText(getApplicationContext(), "Password must contain at least 8 letters.", Toast.LENGTH_SHORT);
                     t.show();
                 }
+//                else if (!m.find()) {
+//                    Toast t = Toast.makeText(getApplicationContext(), "Password must contain at least 1 letter.", Toast.LENGTH_SHORT);
+//                    t.show();
+//                }
                 else{
                     User newUser = new User(userName, password, myImg);
                     userDao.insert(newUser);
@@ -131,6 +146,7 @@ public class Register extends AppCompatActivity {
         if(requsetCode == Img_id && resultCode == RESULT_OK && data != null){
             Uri selectedImage = data.getData();
             imageToUpload.setImageURI(selectedImage);
+            imageToUpload.setTag(selectedImage.toString());
         }
     }
 }
