@@ -11,7 +11,7 @@
     <string name="add_a_new_contact">Add a New Contact</string>
     <string name="send">Send</string>
     <string name="click_here">Click Here</string>
-    <string name="BaseUrl">http://10.0.2.2:7001/api/</string>
+    <string name="BaseUrl">http://10.0.2.2:7001/</string>
     <string name="enter_message">Enter Message</string>
     <string name="choose_profile_picture">Choose Profile Picture</string>
     <string name="nickname">NickName</string>

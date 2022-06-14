@@ -15,15 +15,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.AnyRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import com.example.sameapp.api.UsersApi;
+import com.example.sameapp.api.apiUser;
 import com.example.sameapp.dao.MessageDao;
 import com.example.sameapp.dao.UserDao;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Register extends AppCompatActivity {
 
@@ -35,6 +42,7 @@ public class Register extends AppCompatActivity {
 
     private ContactAppDB db;
     private UserDao userDao;
+    private UsersApi usersApi;
 
     private SharedPreferences sharedpreferences;
     public static final String MyPREFERENCES = "MyPrefs" ;
@@ -48,6 +56,7 @@ public class Register extends AppCompatActivity {
                 .allowMainThreadQueries().build();
 
         userDao = db.userDao();
+        usersApi = new UsersApi(getApplicationContext());
 
         registerButton = findViewById(R.id.register_registerButton);
         moveButton = findViewById(R.id.move_to_register);
@@ -84,7 +93,8 @@ public class Register extends AppCompatActivity {
                 sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
                 //TODO need to change.
-                String myImg = imageToUpload.getTag().toString();
+                //String myImg = imageToUpload.getTag().toString();
+                String myImg = "";
                 User user = userDao.get(userName);
 
 //                String pattern ="([a-zA-Z])";
@@ -104,10 +114,10 @@ public class Register extends AppCompatActivity {
                     Toast t = Toast.makeText(getApplicationContext(), "Passwords are not equal.", Toast.LENGTH_SHORT);
                     t.show();
                 }
-                else if (user != null){
-                    Toast t = Toast.makeText(getApplicationContext(), "UserName already exist.", Toast.LENGTH_SHORT);
-                    t.show();
-                }
+//                else if (user != null){
+//                    Toast t = Toast.makeText(getApplicationContext(), "UserName already exist.", Toast.LENGTH_SHORT);
+//                    t.show();
+//                }
                 else if (password.length() < 8) {
                     Toast t = Toast.makeText(getApplicationContext(), "Password must contain at least 8 letters.", Toast.LENGTH_SHORT);
                     t.show();
@@ -117,16 +127,32 @@ public class Register extends AppCompatActivity {
 //                    t.show();
 //                }
                 else{
+
                     User newUser = new User(userName, password, myImg);
-                    userDao.insert(newUser);
+                    apiUser apiUser = new apiUser(userName, password);
 
-                    SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putString("USERNAME", userName);
-                    editor.commit();
+                    usersApi.getWebServiceAPI().createUser(apiUser).enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if (response.code() == 200){
+                                userDao.insert(newUser);
+                                SharedPreferences.Editor editor = sharedpreferences.edit();
+                                editor.putString("USERNAME", userName);
+                                editor.commit();
 
+                                Intent intent = new Intent(getApplicationContext(), activity_list.class);
+                                startActivity(intent);
+                            }else{
+                                Toast t = Toast.makeText(getApplicationContext(), "UserName is already exist please choose new name.", Toast.LENGTH_SHORT);
+                                t.show();
+                            }
+                        }
 
-                    Intent intent = new Intent(getApplicationContext(), activity_list.class);
-                    startActivity(intent);
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+
+                        }
+                    });
                 }
             }
         });

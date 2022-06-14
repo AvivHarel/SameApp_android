@@ -82,5 +82,6 @@ public class activity_list extends AppCompatActivity {
         String owner = (sharedpreferences.getString("USERNAME", ""));
         contacts.addAll(contactDao.index(owner));
         adapter.notifyDataSetChanged();
+
     }
 }

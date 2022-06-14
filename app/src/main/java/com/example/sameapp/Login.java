@@ -1,5 +1,6 @@
 package com.example.sameapp;
 
+import static com.example.sameapp.MyApplication.context;
 import static com.example.sameapp.Register.MyPREFERENCES;
 
 import android.content.Context;
@@ -14,12 +15,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.AnyRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import com.example.sameapp.api.ContactsApi;
 import com.example.sameapp.api.UsersApi;
+import com.example.sameapp.api.apiUser;
 import com.example.sameapp.dao.UserDao;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Login extends AppCompatActivity {
 
@@ -30,6 +37,7 @@ public class Login extends AppCompatActivity {
     private ContactAppDB db;
     private UserDao userDao;
     private SharedPreferences sharedpreferences;
+    private UsersApi usersApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +48,8 @@ public class Login extends AppCompatActivity {
                 .allowMainThreadQueries().build();
 
         userDao = db.userDao();
+
+        usersApi = new UsersApi(getApplicationContext());
 
         loginButton = findViewById(R.id.login_loginButton);
         moveButton = findViewById(R.id.move_to_register);
@@ -65,23 +75,38 @@ public class Login extends AppCompatActivity {
                     Toast t = Toast.makeText(getApplicationContext(), "UserName or Password are not valid.", Toast.LENGTH_SHORT);
                     t.show();
                 }
-                else if(user == null){
-                    Toast t = Toast.makeText(getApplicationContext(), "User don't exist.", Toast.LENGTH_SHORT);
-                    t.show();
-                }
-                else if ( !user.getPassword().equals(password)) {
-                    Toast t = Toast.makeText(getApplicationContext(), "UserName or Password Wrong.", Toast.LENGTH_SHORT);
-                    t.show();
-                }
+//                else if(user == null){
+//                    Toast t = Toast.makeText(getApplicationContext(), "User don't exist.", Toast.LENGTH_SHORT);
+//                    t.show();
+//                }
+//                else if ( user != null && (!user.getPassword().equals(password))) {
+//                    Toast t = Toast.makeText(getApplicationContext(), "UserName or Password Wrong.", Toast.LENGTH_SHORT);
+//                    t.show();
+//                }
                 else {
-                    SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putString("USERNAME", userName);
-                    editor.commit();
 
+                    apiUser apiUser = new apiUser(userName, password);
 
+                    usersApi.getWebServiceAPI().login(apiUser).enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if (response.code() == 200){
+                                SharedPreferences.Editor editor = sharedpreferences.edit();
+                                editor.putString("USERNAME", userName);
+                                editor.commit();
+                                Intent intent = new Intent(getApplicationContext(), activity_list.class);
+                                startActivity(intent);
+                            }else{
+                                Toast t = Toast.makeText(getApplicationContext(), "UserName not valid.", Toast.LENGTH_SHORT);
+                                t.show();
+                            }
+                        }
 
-                    Intent intent = new Intent(getApplicationContext(), activity_list.class);
-                    startActivity(intent);
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+
+                        }
+                    });
                 }
             }
         });

@@ -1,9 +1,13 @@
 package com.example.sameapp.api;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 public class apiUser {
+    @SerializedName("userName")
     private String UserName;
+    @SerializedName("password")
     private String Password;
 
     public apiUser(String userName, String password) {

@@ -13,22 +13,16 @@ public class Contact {
     // his User Name.
     private String contactID;
     private String userNameOwner;
-    private int pictureId;
     private String lastMassage;
     private String lastMassageSendingTime;
 
 //    public Contact(){}
 
-    public Contact(@NonNull String contactID, int pictureId, String lastMassage, String lastMassageSendingTime, String userNameOwner) {
+    public Contact(@NonNull String contactID, String lastMassage, String lastMassageSendingTime, String userNameOwner) {
         this.contactID = contactID;
-        this.pictureId = pictureId;
         this.lastMassage = lastMassage;
         this.lastMassageSendingTime = lastMassageSendingTime;
         this.userNameOwner = userNameOwner;
-    }
-
-    public int getPictureId() {
-        return pictureId;
     }
 
     public String getLastMassage() {
@@ -46,10 +40,6 @@ public class Contact {
 
     public void setContactID(@NonNull String contactID) {
         this.contactID = contactID;
-    }
-
-    public void setPictureId(int pictureId) {
-        this.pictureId = pictureId;
     }
 
     public void setLastMassage(String lastMassage) {

@@ -77,8 +77,6 @@ public class UserActivity extends AppCompatActivity {
             User user = userDao.get(receiver);
             String profileImage = user.getPictureId();
             Uri profileUri = Uri.parse(profileImage);
-
-
             profilePictureView.setImageURI(profileUri);
 
             userNameView.setText(receiver);
