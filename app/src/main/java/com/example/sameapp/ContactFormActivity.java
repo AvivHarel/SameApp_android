@@ -78,16 +78,12 @@ public class ContactFormActivity extends AppCompatActivity {
             apiContact apiContact = new apiContact(userName.getText().toString(), owner,
                     nickname.getText().toString(), server.getText().toString(), "" ,strDate);
 
-            //contactsApi.create(userName.getText().toString(), owner,
-                    //nickname.getText().toString(), server.getText().toString(), "" ,strDate);
 
             contactsApi.getWebServiceAPI().createContact(apiContact).enqueue(new Callback<Void>() {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     if (response.code() == 200){
                         contactDao.insert(contact);
-                        //Intent intent = new Intent(context, activity_list.class);
-                        //context.startActivity(intent);
                         finish();
                     }
                     else{

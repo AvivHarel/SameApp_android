@@ -39,6 +39,10 @@ public interface WebServiceAPI {
     @POST("api/users/login")
     Call<Void> login(@Body apiUser apiUser);
 
+    @Headers("Content-Type: application/json")
+    @POST("api/contacts/{id}/messages")
+    Call<Void> createMessage(@Body apiMessage message, @Path("id") String id);
+
 
 
     @DELETE("contacts/{id}")

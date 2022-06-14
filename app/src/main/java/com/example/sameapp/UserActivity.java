@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,12 +27,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import com.example.sameapp.api.MessagesApi;
+import com.example.sameapp.api.UsersApi;
+import com.example.sameapp.api.apiMessage;
+import com.example.sameapp.api.apiUser;
 import com.example.sameapp.dao.ContactDao;
 import com.example.sameapp.dao.MessageDao;
 import com.example.sameapp.dao.UserDao;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class UserActivity extends AppCompatActivity {
@@ -44,6 +53,7 @@ public class UserActivity extends AppCompatActivity {
     private MessageDao messageDao;
     private ContactDao contactDao;
     private UserDao userDao;
+    private MessagesApi messageApi;
 
     private ArrayList<Message> messages;
 
@@ -62,6 +72,8 @@ public class UserActivity extends AppCompatActivity {
         messageDao = db.messageDao();
         contactDao = db.contactDao();
         userDao = db.userDao();
+        messageApi = new MessagesApi(getApplicationContext());
+
 
         profilePictureView = findViewById(R.id.user_image_profile_image);
         userNameView = findViewById(R.id.user_text_user_name);
@@ -94,6 +106,7 @@ public class UserActivity extends AppCompatActivity {
         adapter.setMessages(messages);
 
         sendButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onClick(View view) {
@@ -112,20 +125,32 @@ public class UserActivity extends AppCompatActivity {
 
                     String receiver = activityIntent.getStringExtra("userName");
 
-                    contactDao.update(receiver,messageContent,strDate);
-
                     SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
                     String sender = (sharedpreferences.getString("USERNAME", ""));
 
                     Message message = new Message(strDate, true, sender, messageContent, receiver);
 
-                    messageDao.insert(message);
+                    apiMessage apiMessage = new apiMessage(message.getMessageId(),messageContent,strDate,true,sender,receiver);
 
-                    messages.clear();
-                    messages.addAll(messageDao.get(receiver));
-                    adapter.notifyDataSetChanged();
+                    //messageApi.get(receiver);
 
-                    mEdit.setText("");
+                    messageApi.getWebServiceAPI().createMessage(apiMessage, receiver).enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if (response.code() == 200){
+                                contactDao.update(receiver,messageContent,strDate);
+                                messageDao.insert(message);
+                                messages.clear();
+                                messages.addAll(messageDao.get(receiver));
+                                adapter.notifyDataSetChanged();
+                                mEdit.setText("");
+
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+                        }
+                    });
                 }
             }
         });

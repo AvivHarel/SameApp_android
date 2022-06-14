@@ -53,32 +53,6 @@ public class ContactsApi {
         return webServiceAPI;
     }
 
-    public void create(String Id, String UserNameOwner,
-                       String Name, String Server, String Last, String LastDate) {
-
-        apiContact apiContact = new apiContact(Id,UserNameOwner, Name, Server, Last, LastDate);
-        webServiceAPI.createContact(apiContact).enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                if (response.code() == 200){
-                    Contact contact = new Contact(Id, Last, LastDate, UserNameOwner);
-                    contactDao.insert(contact);
-                    //Intent intent = new Intent(context, activity_list.class);
-                    //context.startActivity(intent);
-                }
-                else{
-                        Toast t = Toast.makeText(context, "Contact is not exist in the app db.", Toast.LENGTH_SHORT);
-                        t.show();
-                    }
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-
-            }
-        });
-    }
-
     // get all contacts from api.
     public void get() {
         Call<List<apiContact>> call = webServiceAPI.getContacts();
