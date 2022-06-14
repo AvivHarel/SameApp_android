@@ -78,10 +78,30 @@ public class ContactFormActivity extends AppCompatActivity {
             apiContact apiContact = new apiContact(userName.getText().toString(), owner,
                     nickname.getText().toString(), server.getText().toString(), "" ,strDate);
 
-            contactsApi.create(userName.getText().toString(), owner,
-                    nickname.getText().toString(), server.getText().toString(), "" ,strDate);
+            //contactsApi.create(userName.getText().toString(), owner,
+                    //nickname.getText().toString(), server.getText().toString(), "" ,strDate);
 
-            finish();
+            contactsApi.getWebServiceAPI().createContact(apiContact).enqueue(new Callback<Void>() {
+                @Override
+                public void onResponse(Call<Void> call, Response<Void> response) {
+                    if (response.code() == 200){
+                        contactDao.insert(contact);
+                        //Intent intent = new Intent(context, activity_list.class);
+                        //context.startActivity(intent);
+                        finish();
+                    }
+                    else{
+                        Toast t = Toast.makeText(getApplicationContext(), "Contact is not exist in the app db.", Toast.LENGTH_SHORT);
+                        t.show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<Void> call, Throwable t) {
+
+                }
+            });
+
         });
     }
 }
