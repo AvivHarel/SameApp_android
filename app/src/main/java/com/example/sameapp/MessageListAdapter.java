@@ -81,8 +81,8 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
 
             String DateAndTime = current.getCreated();
             String[] arrTime = DateAndTime.split(" ", 2);
-            holder.time.setText(arrTime[0]);
-            holder.date.setText(arrTime[1]);
+            holder.time.setText(arrTime[1]);
+            holder.date.setText(arrTime[0]);
 
         }
     }

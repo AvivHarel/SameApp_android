@@ -66,7 +66,7 @@ public class ContactFormActivity extends AppCompatActivity {
             today.setToNow();
 
             Calendar c = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd-MM-yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
             String strDate = sdf.format(c.getTime());
 
             SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);

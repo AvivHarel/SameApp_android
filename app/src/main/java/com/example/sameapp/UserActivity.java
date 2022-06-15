@@ -130,6 +130,7 @@ public class UserActivity extends AppCompatActivity {
 
                             //contacts.add(contact);
                             messageDao.insert(message);
+                            contactDao.update(m.getContactId(), m.getContent(), m.getCreated());
                         }
                     }
                 }
@@ -166,7 +167,7 @@ public class UserActivity extends AppCompatActivity {
                     today.setToNow();
 
                     Calendar c = Calendar.getInstance();
-                    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd-MM-yyyy");
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
                     String strDate = sdf.format(c.getTime());
 
                     String receiver = activityIntent.getStringExtra("userName");
