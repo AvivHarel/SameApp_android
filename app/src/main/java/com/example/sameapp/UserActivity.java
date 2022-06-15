@@ -36,6 +36,7 @@ import com.example.sameapp.dao.MessageDao;
 import com.example.sameapp.dao.UserDao;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import retrofit2.Call;
@@ -104,6 +105,51 @@ public class UserActivity extends AppCompatActivity {
         listView.setLayoutManager(new LinearLayoutManager(this));
 
         adapter.setMessages(messages);
+
+        // TODO get list of messages from server
+
+        //messageApi.get(receiver, sender);
+        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String sender = (sharedpreferences.getString("USERNAME", ""));
+        String receiver = activityIntent.getStringExtra("userName");
+
+        Call<List<apiMessage>> call = messageApi.getWebServiceAPI().getMessages(receiver, sender);
+        call.enqueue(new Callback<List<apiMessage>> (){
+
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onResponse(Call<List<apiMessage>> call, Response<List<apiMessage>> response) {
+                List<apiMessage> messagesList = (List<apiMessage>) response.body();
+
+                if (messagesList != null){
+                    for (apiMessage m : messagesList) {
+
+                        Message temp = messageDao.isDataExist(m.getId());
+                        if (temp == null){
+                            Message message = new Message(m.getCreated(), m.getSent(), m.getUserId(), m.getContent(), m.getContactId());
+
+                            //contacts.add(contact);
+                            messageDao.insert(message);
+                        }
+                    }
+                }
+
+                messages.clear();
+                TextView textViewReceiver = findViewById(R.id.user_text_user_name);
+                String receiver = textViewReceiver.getText().toString();
+                messages.addAll(messageDao.get(receiver));
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<List<apiMessage>> call, Throwable t) {
+
+            }
+        });
+
+
+
+
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
