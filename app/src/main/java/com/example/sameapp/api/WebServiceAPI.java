@@ -16,16 +16,17 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface WebServiceAPI {
     @GET("api/contacts")
-    Call<List<apiContact>> getContacts();
+    Call<List<apiContact>> getContacts(@Query("username") String username);
 
     @GET("api/users")
     Call<List<apiUser>> getUsers();
 
     @GET("api/contacts/{id}/messages")
-    Call<List<apiMessage>> getMessges(@Path("id") String id);
+    Call<List<apiMessage>> getMessages(@Path("id") String id, @Query("username") String username);
 
     @Headers("Content-Type: application/json")
     @POST("api/contacts")

@@ -87,7 +87,7 @@ public class ContactFormActivity extends AppCompatActivity {
                         finish();
                     }
                     else{
-                        Toast t = Toast.makeText(getApplicationContext(), "Contact is not exist in the app db.", Toast.LENGTH_SHORT);
+                        Toast t = Toast.makeText(getApplicationContext(), "you have to add a real user name", Toast.LENGTH_SHORT);
                         t.show();
                     }
                 }

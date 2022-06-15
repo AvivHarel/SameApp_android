@@ -42,8 +42,8 @@ public class MessagesApi {
 
 
     // get all contacts from api.
-    public void get(String contactId) {
-        Call<List<apiMessage>> call = webServiceAPI.getMessges(contactId);
+    public void get(String contactId, String username) {
+        Call<List<apiMessage>> call = webServiceAPI.getMessages(contactId, username);
         call.enqueue(new Callback<List<apiMessage>> (){
 
             @Override

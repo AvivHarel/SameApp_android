@@ -54,8 +54,8 @@ public class ContactsApi {
     }
 
     // get all contacts from api.
-    public void get() {
-        Call<List<apiContact>> call = webServiceAPI.getContacts();
+    public void get(String userName) {
+        Call<List<apiContact>> call = webServiceAPI.getContacts(userName);
         call.enqueue(new Callback<List<apiContact>> (){
 
             @Override

@@ -107,7 +107,7 @@ public class Register extends AppCompatActivity {
                     t.show();
                 }
                 if (userName.length() == 0) {
-                    Toast t = Toast.makeText(getApplicationContext(), "UserName is a Required field.", Toast.LENGTH_SHORT);
+                    Toast t = Toast.makeText(getApplicationContext(), "Please choose user name.", Toast.LENGTH_SHORT);
                     t.show();
                 }
                 else if (!password.equals(confirmPassword)) {

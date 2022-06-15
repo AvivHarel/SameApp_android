@@ -70,7 +70,7 @@ public class Login extends AppCompatActivity {
                 String userName = ItemUserName.getText().toString();
                 String password = ItemPassword.getText().toString();
 
-                User user = userDao.get(userName);
+                //User user = userDao.get(userName);
                 if (userName.length() == 0 || password.length() == 0) {
                     Toast t = Toast.makeText(getApplicationContext(), "UserName or Password are not valid.", Toast.LENGTH_SHORT);
                     t.show();
@@ -91,13 +91,22 @@ public class Login extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             if (response.code() == 200){
+
+                                User temp = userDao.isDataExist(userName);
+                                // if the user not exist in Room.
+                                if (temp == null){
+                                    User newUser = new User(userName, password, null);
+                                    userDao.insert(newUser);
+                                }
+
                                 SharedPreferences.Editor editor = sharedpreferences.edit();
                                 editor.putString("USERNAME", userName);
-                                editor.commit();
+                                editor.apply();
+
                                 Intent intent = new Intent(getApplicationContext(), activity_list.class);
                                 startActivity(intent);
                             }else{
-                                Toast t = Toast.makeText(getApplicationContext(), "UserName not valid.", Toast.LENGTH_SHORT);
+                                Toast t = Toast.makeText(getApplicationContext(), "Please sign in first.", Toast.LENGTH_SHORT);
                                 t.show();
                             }
                         }

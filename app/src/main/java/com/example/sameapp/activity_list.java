@@ -13,10 +13,17 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import com.example.sameapp.api.ContactsApi;
+import com.example.sameapp.api.apiContact;
 import com.example.sameapp.dao.ContactDao;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class activity_list extends AppCompatActivity {
 
@@ -26,6 +33,7 @@ public class activity_list extends AppCompatActivity {
 
     ListView listView;
     CustomListAdapter adapter;
+    ContactsApi contactsApi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +44,11 @@ public class activity_list extends AppCompatActivity {
                 .allowMainThreadQueries().build();
 
         contactDao = db.contactDao();
+
+        contactsApi = new ContactsApi(getApplicationContext(), contactDao);
+
+        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String owner = (sharedpreferences.getString("USERNAME", ""));
 
         // add new contact:
         FloatingActionButton addContact = findViewById(R.id.addContactButton);
@@ -52,6 +65,35 @@ public class activity_list extends AppCompatActivity {
 
         listView.setAdapter(adapter);
         listView.setClickable(true);
+
+        Call<List<apiContact>> call = contactsApi.getWebServiceAPI().getContacts(owner);
+        call.enqueue(new Callback<List<apiContact>>(){
+
+            @Override
+            public void onResponse(Call<List<apiContact>> call, Response<List<apiContact>> response) {
+                List<apiContact> contactsList = (List<apiContact>) response.body();
+                for (apiContact c : contactsList) {
+
+                    Contact temp = contactDao.isDataExist(c.getUserNameOwner(), c.getId());
+                    if (temp == null){
+                        Contact contact = new Contact(c.getId(), c.getLast(), c.getLastDate(), c.getUserNameOwner());
+
+                        //contacts.add(contact);
+                        contactDao.insert(contact);
+                    }
+                }
+                contacts.clear();
+                contacts.addAll(contactDao.index(owner));
+                adapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onFailure(Call<List<apiContact>> call, Throwable t) {
+
+            }
+        });
+
+
 
         listView.setOnItemLongClickListener((adapterView, view, i, l)-> {
             //contacts.remove(i);

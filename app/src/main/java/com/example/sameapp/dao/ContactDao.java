@@ -3,6 +3,7 @@ package com.example.sameapp.dao;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
@@ -24,7 +25,10 @@ public interface ContactDao {
     @Query("UPDATE contact SET lastMassage = :LastMessage, lastMassageSendingTime = :LastTime WHERE contactID = :contactId")
     void update(String contactId, String LastMessage, String LastTime);
 
-    @Insert
+    @Query("SELECT * FROM contact WHERE contactID = :userName AND userNameOwner =:owner")
+    Contact isDataExist(String owner, String userName);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Contact... contacts);
 
     @Update

@@ -132,7 +132,7 @@ public class UserActivity extends AppCompatActivity {
 
                     apiMessage apiMessage = new apiMessage(message.getMessageId(),messageContent,strDate,true,sender,receiver);
 
-                    //messageApi.get(receiver);
+                    //messageApi.get(receiver, sender);
 
                     messageApi.getWebServiceAPI().createMessage(apiMessage, receiver).enqueue(new Callback<Void>() {
                         @Override
