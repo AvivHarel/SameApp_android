@@ -122,6 +122,10 @@ public class UserActivity extends AppCompatActivity {
                 List<apiMessage> messagesList = (List<apiMessage>) response.body();
 
                 if (messagesList != null){
+
+                    messageDao.clear(sender, receiver);
+
+
                     for (apiMessage m : messagesList) {
 
                         Message temp = messageDao.isDataExist(m.getId());
@@ -138,7 +142,7 @@ public class UserActivity extends AppCompatActivity {
                 messages.clear();
                 TextView textViewReceiver = findViewById(R.id.user_text_user_name);
                 String receiver = textViewReceiver.getText().toString();
-                messages.addAll(messageDao.get(receiver));
+                messages.addAll(messageDao.get(receiver, sender));
                 adapter.notifyDataSetChanged();
             }
 
@@ -185,10 +189,11 @@ public class UserActivity extends AppCompatActivity {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
                             if (response.code() == 200){
+                                //messageDao.clear(sender, receiver);
                                 contactDao.update(receiver,messageContent,strDate);
                                 messageDao.insert(message);
                                 messages.clear();
-                                messages.addAll(messageDao.get(receiver));
+                                messages.addAll(messageDao.get(receiver,sender));
                                 adapter.notifyDataSetChanged();
                                 mEdit.setText("");
 
@@ -210,7 +215,9 @@ public class UserActivity extends AppCompatActivity {
         messages.clear();
         TextView textViewReceiver = findViewById(R.id.user_text_user_name);
         String receiver = textViewReceiver.getText().toString();
-        messages.addAll(messageDao.get(receiver));
+        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String sender = (sharedpreferences.getString("USERNAME", ""));
+        messages.addAll(messageDao.get(receiver,sender));
         adapter.notifyDataSetChanged();
     }
 }

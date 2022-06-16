@@ -16,8 +16,8 @@ public interface MessageDao {
     @Query("SELECT * FROM message")
     List<Message> index();
 
-    @Query("SELECT * FROM message WHERE contactID = :contactId")
-    List<Message> get(String contactId);
+    @Query("SELECT * FROM message WHERE contactID = :contactId AND userCreatorId = :owner")
+    List<Message> get(String contactId, String owner);
 
     @Query("SELECT * FROM message WHERE messageId = :id")
     Message isDataExist(int id);
@@ -30,4 +30,7 @@ public interface MessageDao {
 
     @Delete
     void delete(Message... messages);
+
+    @Query("DELETE FROM message WHERE userCreatorId = :sender AND contactId = :receiver")
+    void clear(String sender, String receiver);
 }

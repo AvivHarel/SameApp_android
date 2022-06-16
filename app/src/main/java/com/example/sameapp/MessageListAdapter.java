@@ -72,7 +72,6 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
     }
 
     // binds the data to the TextView in each row
-    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (messages != null ){

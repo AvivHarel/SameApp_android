@@ -87,35 +87,42 @@ public class Login extends AppCompatActivity {
 
                     apiUser apiUser = new apiUser(userName, password);
 
-                    usersApi.getWebServiceAPI().login(apiUser).enqueue(new Callback<Void>() {
-                        @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
-                            if (response.code() == 200){
+                    new Thread(()  -> {
 
-                                User temp = userDao.isDataExist(userName);
-                                // if the user not exist in Room.
-                                if (temp == null){
-                                    User newUser = new User(userName, password, null);
-                                    userDao.insert(newUser);
+                        usersApi.getWebServiceAPI().login(apiUser).enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                if (response.code() == 200){
+
+                                    new Thread(() -> {
+                                        User temp = userDao.isDataExist(userName);
+                                        // if the user not exist in Room.
+                                        if (temp == null){
+                                            User newUser = new User(userName, password, null);
+                                            userDao.insert(newUser);
+                                        }
+                                    }).start();
+
+
+                                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                                    editor.putString("USERNAME", userName);
+                                    editor.apply();
+
+                                    Intent intent = new Intent(getApplicationContext(), activity_list.class);
+                                    startActivity(intent);
+                                }else{
+                                    Toast t = Toast.makeText(getApplicationContext(), "Please sign in first.", Toast.LENGTH_SHORT);
+                                    t.show();
                                 }
-
-                                SharedPreferences.Editor editor = sharedpreferences.edit();
-                                editor.putString("USERNAME", userName);
-                                editor.apply();
-
-                                Intent intent = new Intent(getApplicationContext(), activity_list.class);
-                                startActivity(intent);
-                            }else{
-                                Toast t = Toast.makeText(getApplicationContext(), "Please sign in first.", Toast.LENGTH_SHORT);
-                                t.show();
                             }
-                        }
 
-                        @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
 
-                        }
-                    });
+                            }
+                        });
+                    }).start();
+
                 }
             }
         });

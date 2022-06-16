@@ -131,28 +131,34 @@ public class Register extends AppCompatActivity {
                     User newUser = new User(userName, password, myImg);
                     apiUser apiUser = new apiUser(userName, password);
 
-                    usersApi.getWebServiceAPI().createUser(apiUser).enqueue(new Callback<Void>() {
-                        @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
-                            if (response.code() == 200){
-                                userDao.insert(newUser);
-                                SharedPreferences.Editor editor = sharedpreferences.edit();
-                                editor.putString("USERNAME", userName);
-                                editor.commit();
+                    new Thread(() -> {
+                        usersApi.getWebServiceAPI().createUser(apiUser).enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                if (response.code() == 200){
 
-                                Intent intent = new Intent(getApplicationContext(), activity_list.class);
-                                startActivity(intent);
-                            }else{
-                                Toast t = Toast.makeText(getApplicationContext(), "UserName is already exist please choose new name.", Toast.LENGTH_SHORT);
-                                t.show();
+                                    new Thread(() -> {
+                                        userDao.insert(newUser);
+                                    }).start();
+
+                                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                                    editor.putString("USERNAME", userName);
+                                    editor.commit();
+
+                                    Intent intent = new Intent(getApplicationContext(), activity_list.class);
+                                    startActivity(intent);
+                                }else{
+                                    Toast t = Toast.makeText(getApplicationContext(), "UserName is already exist please choose new name.", Toast.LENGTH_SHORT);
+                                    t.show();
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
 
-                        }
-                    });
+                            }
+                        });
+                    }).start();
                 }
             }
         });

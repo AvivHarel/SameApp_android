@@ -84,17 +84,19 @@ public class ContactFormActivity extends AppCompatActivity {
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     if (response.code() == 200){
                         contactDao.insert(contact);
-                        finish();
+                        contactDao.update(contact);
+
                     }
                     else{
                         Toast t = Toast.makeText(getApplicationContext(), "you have to add a real user name", Toast.LENGTH_SHORT);
                         t.show();
                     }
+                    finish();
                 }
 
                 @Override
                 public void onFailure(Call<Void> call, Throwable t) {
-
+                    finish();
                 }
             });
 
