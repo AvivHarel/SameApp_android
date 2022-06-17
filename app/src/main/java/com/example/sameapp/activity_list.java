@@ -16,7 +16,12 @@ import androidx.room.Room;
 import com.example.sameapp.api.ContactsApi;
 import com.example.sameapp.api.apiContact;
 import com.example.sameapp.dao.ContactDao;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.FirebaseInstanceIdReceiver;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessagingService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +52,10 @@ public class activity_list extends AppCompatActivity {
 
         contactsApi = new ContactsApi(getApplicationContext(), contactDao);
 
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(activity_list.this, instanceIdResult -> {
+            String newToken = instanceIdResult.getToken();
+        });
+
         SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         String owner = (sharedpreferences.getString("USERNAME", ""));
 
@@ -58,7 +67,7 @@ public class activity_list extends AppCompatActivity {
             startActivity(i);
         });
 
-        contacts = new ArrayList<Contact>();
+        contacts = new ArrayList<>();
 
         listView = findViewById(R.id.list_view);
         adapter = new CustomListAdapter(getApplicationContext(), contacts);
@@ -71,15 +80,17 @@ public class activity_list extends AppCompatActivity {
 
             @Override
             public void onResponse(Call<List<apiContact>> call, Response<List<apiContact>> response) {
-                List<apiContact> contactsList = (List<apiContact>) response.body();
-                for (apiContact c : contactsList) {
+                List<apiContact> contactsList = response.body();
+                if (contactsList != null){
+                    for (apiContact c : contactsList) {
 
-                    Contact temp = contactDao.isDataExist(c.getUserNameOwner(), c.getId());
-                    if (temp == null){
-                        Contact contact = new Contact(c.getId(), c.getLast(), c.getLastDate(), c.getUserNameOwner());
+                        Contact temp = contactDao.isDataExist(c.getUserNameOwner(), c.getId());
+                        if (temp == null){
+                            Contact contact = new Contact(c.getId(), c.getLast(), c.getLastDate(), c.getUserNameOwner());
 
-                        //contacts.add(contact);
-                        contactDao.insert(contact);
+                            //contacts.add(contact);
+                            contactDao.insert(contact);
+                        }
                     }
                 }
                 contacts.clear();
@@ -103,16 +114,13 @@ public class activity_list extends AppCompatActivity {
             return true;
         });
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getApplicationContext(), UserActivity.class);
+        listView.setOnItemClickListener((adapterView, view, i, l) -> {
+            Intent intent = new Intent(getApplicationContext(), UserActivity.class);
 
-                intent.putExtra("userName", contacts.get(i).getContactID());
-             //   intent.putExtra("profilePicture", contacts.get(i).getProfilePicture());
+            intent.putExtra("userName", contacts.get(i).getContactID());
+         //   intent.putExtra("profilePicture", contacts.get(i).getProfilePicture());
 
-                startActivity(intent);
-            }
+            startActivity(intent);
         });
     }
 
