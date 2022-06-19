@@ -1,6 +1,5 @@
 package com.example.sameapp;
 
-import static com.example.sameapp.MyApplication.context;
 import static com.example.sameapp.Register.MyPREFERENCES;
 
 import android.content.Context;
@@ -11,18 +10,17 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.AnyRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
-import com.example.sameapp.api.ContactsApi;
 import com.example.sameapp.api.UsersApi;
 import com.example.sameapp.api.apiUser;
 import com.example.sameapp.dao.UserDao;
+import com.example.sameapp.models.User;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -107,6 +105,28 @@ public class Login extends AppCompatActivity {
                                     SharedPreferences.Editor editor = sharedpreferences.edit();
                                     editor.putString("USERNAME", userName);
                                     editor.apply();
+
+                                    FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(Login.this, instanceIdResult -> {
+                                        String newToken = instanceIdResult.getToken();
+
+                                        usersApi.getWebServiceAPI().sendToken(newToken).enqueue(new Callback<Void>() {
+                                            @Override
+                                            public void onResponse(Call<Void> call, Response<Void> response) {
+
+                                                if (response.code() == 200){
+
+                                                }
+
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<Void> call, Throwable t) {
+
+                                            }
+                                        });
+
+
+                                    });
 
                                     Intent intent = new Intent(getApplicationContext(), activity_list.class);
                                     startActivity(intent);

@@ -1,14 +1,11 @@
 package com.example.sameapp;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.format.Time;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -16,16 +13,15 @@ import android.widget.Toast;
 import static com.example.sameapp.Register.MyPREFERENCES;
 
 
-import androidx.annotation.AnyRes;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
 import com.example.sameapp.api.ContactsApi;
-import com.example.sameapp.api.UsersApi;
 import com.example.sameapp.api.apiContact;
+import com.example.sameapp.api.apiInvitation;
 import com.example.sameapp.dao.ContactDao;
 import com.example.sameapp.dao.UserDao;
+import com.example.sameapp.models.Contact;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -85,6 +81,25 @@ public class ContactFormActivity extends AppCompatActivity {
                     if (response.code() == 200){
                         contactDao.insert(contact);
                         contactDao.update(contact);
+
+                        apiInvitation apiInvitation = new apiInvitation(contact.getUserNameOwner(), contact.getContactID(), server.getText().toString());
+                        contactsApi.getWebServiceAPI().invitationUser(apiInvitation).enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                if (response.code() == 200){
+
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
+
+                            }
+                        });
+
+
+
+
 
                     }
                     else{

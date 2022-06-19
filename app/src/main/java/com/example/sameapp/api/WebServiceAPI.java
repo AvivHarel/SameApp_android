@@ -1,17 +1,10 @@
 package com.example.sameapp.api;
 
-import androidx.annotation.AnyRes;
-
-import com.example.sameapp.Contact;
-import com.example.sameapp.User;
-
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -37,6 +30,10 @@ public interface WebServiceAPI {
     Call<Void> createUser(@Body apiUser user);
 
     @Headers("Content-Type: application/json")
+    @POST("api/Invitations")
+    Call<Void> invitationUser(@Body apiInvitation apiInvitation);
+
+    @Headers("Content-Type: application/json")
     @POST("api/users/login")
     Call<Void> login(@Body apiUser apiUser);
 
@@ -44,7 +41,15 @@ public interface WebServiceAPI {
     @POST("api/contacts/{id}/messages")
     Call<Void> createMessage(@Body apiMessage message, @Path("id") String id);
 
+    @Headers("Content-Type: application/json")
+    @POST("api/transfer")
+    Call<Void> transferMessage(@Body apiTransfer apiTransfer);
 
+
+
+    @Headers("Content-Type: application/json")
+    @POST("api/users/token")
+    Call<Void> sendToken(@Body String token);
 
     @DELETE("contacts/{id}")
     Call<Void> deleteContact(@Path("id") int id);

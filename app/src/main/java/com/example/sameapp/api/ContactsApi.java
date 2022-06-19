@@ -1,22 +1,11 @@
 package com.example.sameapp.api;
 
 import android.content.Context;
-import android.content.Intent;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
-import androidx.annotation.AnyRes;
-
-import com.example.sameapp.Contact;
-import com.example.sameapp.ContactAppDB;
 import com.example.sameapp.MyApplication;
 import com.example.sameapp.R;
-import com.example.sameapp.activity_list;
 import com.example.sameapp.dao.ContactDao;
 import com.google.gson.GsonBuilder;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.List;
 import retrofit2.Call;

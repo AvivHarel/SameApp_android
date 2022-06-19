@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,12 +14,9 @@ import androidx.room.Room;
 import com.example.sameapp.api.ContactsApi;
 import com.example.sameapp.api.apiContact;
 import com.example.sameapp.dao.ContactDao;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.example.sameapp.models.Contact;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.FirebaseInstanceIdReceiver;
-import com.google.firebase.iid.InstanceIdResult;
-import com.google.firebase.messaging.FirebaseMessagingService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,9 +47,6 @@ public class activity_list extends AppCompatActivity {
 
         contactsApi = new ContactsApi(getApplicationContext(), contactDao);
 
-        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(activity_list.this, instanceIdResult -> {
-            String newToken = instanceIdResult.getToken();
-        });
 
         SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         String owner = (sharedpreferences.getString("USERNAME", ""));

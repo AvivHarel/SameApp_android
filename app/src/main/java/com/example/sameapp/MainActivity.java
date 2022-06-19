@@ -23,12 +23,6 @@ public class MainActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.login_button);
         registerButton = findViewById(R.id.register_button);
 
-        //ContactsApi contactsApi = new ContactsApi();
-        //contactsApi.get();
-
-        //MessagesApi messagesApi = new MessagesApi();
-        //messagesApi.get("Aviv");
-
         // when press to login go to login screen.
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -2,10 +2,8 @@ package com.example.sameapp.api;
 
 import android.content.Context;
 
-import com.example.sameapp.Contact;
 import com.example.sameapp.MyApplication;
 import com.example.sameapp.R;
-import com.example.sameapp.dao.ContactDao;
 import com.google.gson.GsonBuilder;
 
 import java.util.List;

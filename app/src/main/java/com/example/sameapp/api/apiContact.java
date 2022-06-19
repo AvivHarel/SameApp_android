@@ -1,9 +1,6 @@
 package com.example.sameapp.api;
 
-import com.example.sameapp.User;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
 
 public class apiContact {
     @SerializedName("id")

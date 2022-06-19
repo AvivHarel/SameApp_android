@@ -17,9 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,16 +26,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import com.example.sameapp.api.MessagesApi;
-import com.example.sameapp.api.UsersApi;
 import com.example.sameapp.api.apiMessage;
-import com.example.sameapp.api.apiUser;
+import com.example.sameapp.api.apiTransfer;
 import com.example.sameapp.dao.ContactDao;
 import com.example.sameapp.dao.MessageDao;
 import com.example.sameapp.dao.UserDao;
+import com.example.sameapp.models.Message;
+import com.example.sameapp.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -105,8 +103,6 @@ public class UserActivity extends AppCompatActivity {
         listView.setLayoutManager(new LinearLayoutManager(this));
 
         adapter.setMessages(messages);
-
-        // TODO get list of messages from server
 
         //messageApi.get(receiver, sender);
         SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
@@ -203,6 +199,24 @@ public class UserActivity extends AppCompatActivity {
                         public void onFailure(Call<Void> call, Throwable t) {
                         }
                     });
+
+                    apiTransfer apiTransfer = new apiTransfer(sender, receiver, messageContent);
+
+                    messageApi.getWebServiceAPI().transferMessage(apiTransfer).enqueue(new Callback<Void>() {
+                        @Override
+                        public void onResponse(Call<Void> call, Response<Void> response) {
+                            if (response.code() == 200){
+
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Void> call, Throwable t) {
+
+                        }
+                    });
+
+
                 }
             }
         });

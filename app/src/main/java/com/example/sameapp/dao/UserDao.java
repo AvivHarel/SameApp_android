@@ -7,8 +7,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.sameapp.Contact;
-import com.example.sameapp.User;
+import com.example.sameapp.models.User;
 import java.util.List;
 
 @Dao

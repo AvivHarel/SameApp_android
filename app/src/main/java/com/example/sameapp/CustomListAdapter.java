@@ -1,16 +1,7 @@
 package com.example.sameapp;
 
-import static android.content.ContentValues.TAG;
-
-import static com.example.sameapp.MyApplication.context;
-
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,10 +15,9 @@ import androidx.annotation.Nullable;
 import androidx.room.Room;
 
 import com.example.sameapp.dao.UserDao;
+import com.example.sameapp.models.Contact;
+import com.example.sameapp.models.User;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class CustomListAdapter extends ArrayAdapter<Contact> {
