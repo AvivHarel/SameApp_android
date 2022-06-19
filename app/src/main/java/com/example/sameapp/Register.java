@@ -143,7 +143,7 @@ public class Register extends AppCompatActivity {
                                     FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener(Register.this, instanceIdResult -> {
                                         String newToken = instanceIdResult.getToken();
 
-                                        usersApi.getWebServiceAPI().sendToken(newToken).enqueue(new Callback<Void>() {
+                                        usersApi.getWebServiceAPI().sendToken(userName, newToken).enqueue(new Callback<Void>() {
                                             @Override
                                             public void onResponse(Call<Void> call, Response<Void> response) {
 

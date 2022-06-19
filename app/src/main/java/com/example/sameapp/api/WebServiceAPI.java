@@ -45,11 +45,9 @@ public interface WebServiceAPI {
     @POST("api/transfer")
     Call<Void> transferMessage(@Body apiTransfer apiTransfer);
 
-
-
     @Headers("Content-Type: application/json")
     @POST("api/users/token")
-    Call<Void> sendToken(@Body String token);
+    Call<Void> sendToken(@Query("username") String username, @Body String token);
 
     @DELETE("contacts/{id}")
     Call<Void> deleteContact(@Path("id") int id);

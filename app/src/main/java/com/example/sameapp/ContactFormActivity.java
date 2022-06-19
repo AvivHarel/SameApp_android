@@ -97,10 +97,6 @@ public class ContactFormActivity extends AppCompatActivity {
                             }
                         });
 
-
-
-
-
                     }
                     else{
                         Toast t = Toast.makeText(getApplicationContext(), "you have to add a real user name", Toast.LENGTH_SHORT);
