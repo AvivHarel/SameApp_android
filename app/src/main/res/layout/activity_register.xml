@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textAllCaps="false"
+            android:backgroundTint="@color/cool_app_color"
             android:text="@string/choose_profile_picture" />
 
         <EditText
@@ -70,6 +71,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:backgroundTint="@color/cool_app_color"
             android:text="@string/register_button_text" />
     </LinearLayout>
 

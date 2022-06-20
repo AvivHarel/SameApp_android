@@ -45,7 +45,11 @@ public class ContactFormActivity extends AppCompatActivity {
 
         contactDao = db.contactDao();
         userDao = db.userDao();
-        contactsApi = new ContactsApi(getApplicationContext(), contactDao);
+
+        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String localServer = sharedpreferences.getString("SERVER", "");
+
+        contactsApi = new ContactsApi(getApplicationContext(), contactDao, localServer);
 
 
         Button btnAdd = findViewById(R.id.contact_btnAdd);
@@ -65,7 +69,6 @@ public class ContactFormActivity extends AppCompatActivity {
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
             String strDate = sdf.format(c.getTime());
 
-            SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
 
             String owner = (sharedpreferences.getString("USERNAME", ""));
 
@@ -79,6 +82,7 @@ public class ContactFormActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<Void> call, Response<Void> response) {
                     if (response.code() == 200){
+
                         contactDao.insert(contact);
                         contactDao.update(contact);
 

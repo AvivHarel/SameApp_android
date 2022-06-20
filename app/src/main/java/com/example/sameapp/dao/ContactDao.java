@@ -35,4 +35,7 @@ public interface ContactDao {
     @Delete
     void delete(Contact... contacts);
 
+    @Query("DELETE FROM contact WHERE userNameOwner = :owner")
+    void clear(String owner);
+
 }

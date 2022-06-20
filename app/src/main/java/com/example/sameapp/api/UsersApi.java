@@ -1,6 +1,9 @@
 package com.example.sameapp.api;
 
+import static com.example.sameapp.Register.MyPREFERENCES;
+
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.example.sameapp.MyApplication;
 import com.example.sameapp.R;
@@ -12,10 +15,14 @@ public class UsersApi {
     Retrofit retrofit;
     WebServiceAPI webServiceAPI;
     public Context context;
+    private SharedPreferences sharedpreferences;
 
-    public UsersApi(Context context) {
+
+    public UsersApi(Context context, String server) {
+        String myUrl = "http://10.0.2.2:" + server + "/";
+
         retrofit = new Retrofit.Builder()
-                .baseUrl(MyApplication.context.getString(R.string.BaseUrl))
+                .baseUrl(myUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         webServiceAPI = retrofit.create(WebServiceAPI.class);

@@ -23,4 +23,6 @@
     <string name="june_10">June 10</string>
     <string name="this_is_a_message">This is a Message</string>
     <string name="_10_00">10:00</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -1,13 +1,17 @@
 package com.example.sameapp;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.util.Base64;
 
 
 import androidx.annotation.NonNull;
@@ -19,6 +23,8 @@ import com.example.sameapp.models.Contact;
 import com.example.sameapp.models.User;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
 
 public class CustomListAdapter extends ArrayAdapter<Contact> {
     LayoutInflater inflater;
@@ -58,9 +64,15 @@ public class CustomListAdapter extends ArrayAdapter<Contact> {
         User user = userDao.get(userNameId);
         String profileImage = user.getPictureId();
         Uri profileUri = Uri.parse(profileImage);
+        if (!Objects.equals(profileImage, "")){
+            byte[] profileImageByte = Base64.decode(profileImage, Base64.DEFAULT);
+            Bitmap image = BitmapFactory.decodeByteArray(profileImageByte,0,profileImageByte.length);
+            imageView.setImageBitmap(image);
+        }
+        else{
+            imageView.setImageResource(R.drawable.profile);
+        }
 
-        //imageView.setImageURI(profileUri);
-        imageView.setImageURI(null);
 
         return convertView;
     }

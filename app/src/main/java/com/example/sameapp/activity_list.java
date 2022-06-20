@@ -45,10 +45,12 @@ public class activity_list extends AppCompatActivity {
 
         contactDao = db.contactDao();
 
-        contactsApi = new ContactsApi(getApplicationContext(), contactDao);
-
-
         SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String server = sharedpreferences.getString("SERVER", "");
+
+        contactsApi = new ContactsApi(getApplicationContext(), contactDao, server);
+
+
         String owner = (sharedpreferences.getString("USERNAME", ""));
 
         // add new contact:
@@ -74,6 +76,9 @@ public class activity_list extends AppCompatActivity {
             public void onResponse(Call<List<apiContact>> call, Response<List<apiContact>> response) {
                 List<apiContact> contactsList = response.body();
                 if (contactsList != null){
+
+                    contactDao.clear(owner);
+
                     for (apiContact c : contactsList) {
 
                         Contact temp = contactDao.isDataExist(c.getUserNameOwner(), c.getId());

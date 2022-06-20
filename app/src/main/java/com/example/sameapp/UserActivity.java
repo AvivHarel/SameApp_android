@@ -7,12 +7,15 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.icu.text.SimpleDateFormat;
 import android.icu.util.Calendar;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.format.Time;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,6 +39,7 @@ import com.example.sameapp.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,7 +75,12 @@ public class UserActivity extends AppCompatActivity {
         messageDao = db.messageDao();
         contactDao = db.contactDao();
         userDao = db.userDao();
-        messageApi = new MessagesApi(getApplicationContext());
+
+        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        String server = sharedpreferences.getString("SERVER", "");
+
+        messageApi = new MessagesApi(getApplicationContext(), server);
 
 
         profilePictureView = findViewById(R.id.user_image_profile_image);
@@ -88,7 +97,15 @@ public class UserActivity extends AppCompatActivity {
             User user = userDao.get(receiver);
             String profileImage = user.getPictureId();
             Uri profileUri = Uri.parse(profileImage);
-            profilePictureView.setImageURI(profileUri);
+
+            if (!Objects.equals(profileImage, "")){
+                byte[] profileImageByte = Base64.decode(profileImage, Base64.DEFAULT);
+                Bitmap image = BitmapFactory.decodeByteArray(profileImageByte,0,profileImageByte.length);
+                profilePictureView.setImageBitmap(image);
+            }
+            else{
+                profilePictureView.setImageResource(R.drawable.profile);
+            }
 
             userNameView.setText(receiver);
         }
@@ -105,7 +122,6 @@ public class UserActivity extends AppCompatActivity {
         adapter.setMessages(messages);
 
         //messageApi.get(receiver, sender);
-        SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         String sender = (sharedpreferences.getString("USERNAME", ""));
         String receiver = activityIntent.getStringExtra("userName");
 
@@ -115,7 +131,7 @@ public class UserActivity extends AppCompatActivity {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onResponse(Call<List<apiMessage>> call, Response<List<apiMessage>> response) {
-                List<apiMessage> messagesList = (List<apiMessage>) response.body();
+                List<apiMessage> messagesList = response.body();
 
                 if (messagesList != null){
 
@@ -152,72 +168,67 @@ public class UserActivity extends AppCompatActivity {
 
 
 
-        sendButton.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onClick(View view) {
+        sendButton.setOnClickListener(view -> {
 
-                EditText mEdit = (EditText)findViewById(R.id.edit_gchat_message);
+            EditText mEdit = findViewById(R.id.edit_gchat_message);
 
-                String messageContent = mEdit.getText().toString();
+            String messageContent = mEdit.getText().toString();
 
-                if (messageContent.length() > 0) {
-                    Time today = new Time(Time.getCurrentTimezone());
-                    today.setToNow();
+            if (messageContent.length() > 0) {
+                Time today = new Time(Time.getCurrentTimezone());
+                today.setToNow();
 
-                    Calendar c = Calendar.getInstance();
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
-                    String strDate = sdf.format(c.getTime());
+                Calendar c = Calendar.getInstance();
+                SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+                String strDate = sdf.format(c.getTime());
 
-                    String receiver = activityIntent.getStringExtra("userName");
+                String receiver1 = activityIntent.getStringExtra("userName");
 
-                    SharedPreferences sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-                    String sender = (sharedpreferences.getString("USERNAME", ""));
+                SharedPreferences sharedpreferences1 = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+                String sender1 = (sharedpreferences1.getString("USERNAME", ""));
 
-                    Message message = new Message(strDate, true, sender, messageContent, receiver);
+                Message message = new Message(strDate, true, sender1, messageContent, receiver1);
 
-                    apiMessage apiMessage = new apiMessage(message.getMessageId(),messageContent,strDate,true,sender,receiver);
+                apiMessage apiMessage = new apiMessage(message.getMessageId(),messageContent,strDate,true, sender1, receiver1);
 
-                    //messageApi.get(receiver, sender);
+                //messageApi.get(receiver, sender);
 
-                    messageApi.getWebServiceAPI().createMessage(apiMessage, receiver).enqueue(new Callback<Void>() {
-                        @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
-                            if (response.code() == 200){
-                                //messageDao.clear(sender, receiver);
-                                contactDao.update(receiver,messageContent,strDate);
-                                messageDao.insert(message);
-                                messages.clear();
-                                messages.addAll(messageDao.get(receiver,sender));
-                                adapter.notifyDataSetChanged();
-                                mEdit.setText("");
-
-                            }
-                        }
-                        @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
-                        }
-                    });
-
-                    apiTransfer apiTransfer = new apiTransfer(sender, receiver, messageContent);
-
-                    messageApi.getWebServiceAPI().transferMessage(apiTransfer).enqueue(new Callback<Void>() {
-                        @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
-                            if (response.code() == 200){
-
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
+                messageApi.getWebServiceAPI().createMessage(apiMessage, receiver1).enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call1, Response<Void> response) {
+                        if (response.code() == 200){
+                            //messageDao.clear(sender, receiver);
+                            contactDao.update(receiver1,messageContent,strDate);
+                            messageDao.insert(message);
+                            messages.clear();
+                            messages.addAll(messageDao.get(receiver1, sender1));
+                            adapter.notifyDataSetChanged();
+                            mEdit.setText("");
 
                         }
-                    });
+                    }
+                    @Override
+                    public void onFailure(Call<Void> call1, Throwable t) {
+                    }
+                });
+
+                apiTransfer apiTransfer = new apiTransfer(sender1, receiver1, messageContent);
+
+                messageApi.getWebServiceAPI().transferMessage(apiTransfer).enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call1, Response<Void> response) {
+                        if (response.code() == 200){
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call1, Throwable t) {
+
+                    }
+                });
 
 
-                }
             }
         });
     }

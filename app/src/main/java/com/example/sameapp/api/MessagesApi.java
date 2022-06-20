@@ -21,9 +21,10 @@ public class MessagesApi {
     WebServiceAPI webServiceAPI;
     Context context;
 
-    public MessagesApi(Context context) {
+    public MessagesApi(Context context, String server) {
+        String myUrl = "http://10.0.2.2:" + server + "/";
         retrofit = new Retrofit.Builder()
-                .baseUrl(MyApplication.context.getString(R.string.BaseUrl))
+                .baseUrl(myUrl)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
                         .setLenient()
