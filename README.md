@@ -11,7 +11,7 @@ In order to use our app, follow the next simple steps:
 1. clone our repository, notice that we have 2 projects, the .net is the server & web app, and an android app.
 2. run the server (.net), and wait for the web application to load.
 3. run the android app
-4. register to the app (in this version - only from the android).
+4. register to the app (in this version - only from the android). password must conatin 8 letters including 1 abc letter.
 5. log in (from both web or android) and start converstation.
 
 ** NOTE : if you are register from the android app, you have an option to add a profile picture. she will be display only in the phone, as required! **
