@@ -103,13 +103,13 @@ public class activity_list extends AppCompatActivity {
 
 
 
-        listView.setOnItemLongClickListener((adapterView, view, i, l)-> {
-            //contacts.remove(i);
-            Contact contact = contacts.remove(i);
-            contactDao.delete(contact);
-            adapter.notifyDataSetChanged();
-            return true;
-        });
+//         listView.setOnItemLongClickListener((adapterView, view, i, l)-> {
+//             //contacts.remove(i);
+//             Contact contact = contacts.remove(i);
+//             contactDao.delete(contact);
+//             adapter.notifyDataSetChanged();
+//             return true;
+//         });
 
         listView.setOnItemClickListener((adapterView, view, i, l) -> {
             Intent intent = new Intent(getApplicationContext(), UserActivity.class);
