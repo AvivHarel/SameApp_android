@@ -37,6 +37,7 @@ When you add a new contact - you need to supply:
 	     2. The default server is localhost:7001.
 	        in order to change it to your current server address you need to go to the settings page and set the server.
 	        when you send your current server, set only the port. for example "5324".
+	     3. If you add new contact from Web App the server is "localhost:5324", change only the digits the your server.
 
 **********************************************************************************************************************************
 
