@@ -107,10 +107,10 @@ public class Register extends AppCompatActivity {
 
             User user = userDao.get(userName);
 
-//                String pattern ="([a-zA-Z])";
-//                Pattern r = Pattern.compile(pattern);
-//
-//                Matcher m = r.matcher(password);
+               String pattern ="([a-zA-Z])";
+               Pattern r = Pattern.compile(pattern);
+
+               Matcher m = r.matcher(password);
 
             if (password.length() == 0) {
                 Toast t = Toast.makeText(getApplicationContext(), "Password is a Required field.", Toast.LENGTH_SHORT);
@@ -132,10 +132,10 @@ public class Register extends AppCompatActivity {
                 Toast t = Toast.makeText(getApplicationContext(), "Password must contain at least 8 letters.", Toast.LENGTH_SHORT);
                 t.show();
             }
-//                else if (!m.find()) {
-//                    Toast t = Toast.makeText(getApplicationContext(), "Password must contain at least 1 letter.", Toast.LENGTH_SHORT);
-//                    t.show();
-//                }
+               else if (!m.find()) {
+                   Toast t = Toast.makeText(getApplicationContext(), "Password must contain at least 1 letter.", Toast.LENGTH_SHORT);
+                   t.show();
+               }
             else{
 
                 User newUser = new User(userName, password, myImg);
